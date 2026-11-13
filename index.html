@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0c0e">
+  <meta name="description" content="A little about Muhammad Amir: first-year student at Inha University, chess player, football fan, and technology enthusiast.">
+  <title>Muhammad Amir — Student &amp; Curious Mind</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('muhammad-amir-theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.dataset.theme = savedTheme;
+    } catch (_) {}
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('motion-ok');
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ground: #0a0c0e;
+      --surface: #101317;
+      --ink: #ede7dc;
+      --secondary: #9ea5a8;
+      --muted: #6c7378;
+      --red: #e05252;
+      --teal: #52777a;
+      --hairline: rgba(237, 231, 220, .14);
+      --display: 'Syne', 'Arial Black', sans-serif;
+      --body: 'Sora', Arial, sans-serif;
+      --gutter: clamp(22px, 5.2vw, 84px);
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+    }
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --ground: #f3f0e8;
+      --surface: #e8e3d9;
+      --ink: #191d1f;
+      --secondary: #4e5759;
+      --muted: #737a7c;
+      --red: #b32630;
+      --teal: #416b6d;
+      --hairline: rgba(25, 29, 31, .17);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { background: var(--ground); }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--ground);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    ::selection { color: var(--ground); background: var(--red); }
+    .eyebrow {
+      margin: 0;
+      color: var(--secondary);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .15em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+    .accent { color: var(--red); }
+    .teal { color: var(--teal); }
+    .display { font-family: var(--display); letter-spacing: -.035em; }
+
+    .site-nav {
+      position: fixed;
+      z-index: 30;
+      inset: 0 0 auto;
+      display: flex;
+      height: 58px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--gutter);
+      border-bottom: 1px solid var(--hairline);
+      background: color-mix(in srgb, var(--ground) 82%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .nav-brand {
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -.06em;
+    }
+    .nav-brand span { color: var(--red); }
+    .nav-links { display: flex; align-items: center; gap: clamp(20px, 3vw, 44px); }
+    .nav-links a {
+      color: var(--secondary);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      transition: color .2s ease;
+    }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--red); }
+    .nav-links .nav-contact {
+      padding: 9px 14px;
+      border: 1px solid var(--hairline);
+      border-radius: 99px;
+      color: var(--ink);
+    }
+    .nav-links .nav-contact:hover, .nav-links .nav-contact:focus-visible {
+      border-color: var(--red);
+      color: var(--red);
+    }
+    .nav-tools { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); }
+    .theme-toggle {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 11px;
+      border: 1px solid var(--hairline);
+      border-radius: 99px;
+      background: transparent;
+      color: var(--secondary);
+      cursor: pointer;
+      font-size: 9px;
+      letter-spacing: .08em;
+      white-space: nowrap;
+      transition: color .2s ease, border-color .2s ease;
+    }
+    .theme-toggle:hover, .theme-toggle:focus-visible { border-color: var(--red); color: var(--red); }
+    .theme-toggle-icon { font-size: 13px; line-height: 1; }
+
+    /* The opening is a scroll position, so it reverses naturally on the way up. */
+    .portal {
+      position: relative;
+      height: 250svh;
+      min-height: 1700px;
+    }
+    .portal-stage {
+      position: sticky;
+      top: 0;
+      isolation: isolate;
+      height: 100svh;
+      min-height: 600px;
+      overflow: hidden;
+      background: #101214;
+    }
+    .portal-photo {
+      position: absolute;
+      z-index: -3;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 34%;
+      filter: saturate(.72) brightness(.68) contrast(1.04);
+      transform: scale(1);
+      will-change: transform;
+    }
+    .portal-shade {
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+      background: radial-gradient(ellipse at 53% 40%, rgba(10, 12, 14, .05) 0%, rgba(10, 12, 14, .24) 46%, rgba(10, 12, 14, .83) 100%);
+    }
+    :root[data-theme="light"] .portal-photo { filter: saturate(.78) brightness(.96) contrast(1.02); }
+    :root[data-theme="light"] .portal-shade { background: radial-gradient(ellipse at 53% 40%, rgba(243, 240, 232, .03) 0%, rgba(243, 240, 232, .14) 48%, rgba(243, 240, 232, .60) 100%); }
+    .portal-duotone {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: linear-gradient(118deg, rgba(46, 107, 114, .32), rgba(224, 82, 82, .25));
+      mix-blend-mode: color;
+      opacity: .08;
+      pointer-events: none;
+    }
+    .portal-panel {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+      width: 50.2%;
+      background: var(--ground);
+      will-change: transform;
+    }
+    .portal-panel--left { left: 0; transform: translateX(-103%); }
+    .portal-panel--right { right: 0; transform: translateX(103%); }
+    .motion-ok .portal-panel--left { transform: translateX(calc(var(--progress, 0) * -103%)); }
+    .motion-ok .portal-panel--right { transform: translateX(calc(var(--progress, 0) * 103%)); }
+    .motion-ok .portal-photo { transform: scale(calc(1.08 - var(--progress, 0) * .08)); }
+    .motion-ok .portal-duotone { opacity: calc(var(--progress, 0) * .16); }
+    .portal-title {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      display: flex;
+      width: max-content;
+      align-items: center;
+      gap: .055em;
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: clamp(52px, 12vw, 178px);
+      font-weight: 800;
+      letter-spacing: -.045em;
+      line-height: .8;
+      transform: translate(-50%, -55%);
+      white-space: nowrap;
+      will-change: transform, letter-spacing;
+    }
+    .portal-title .word { display: inline-block; }
+    .portal-title .surname { color: var(--ink); }
+    .motion-ok .portal-title {
+      letter-spacing: calc(-.045em - var(--progress, 0) * .012em);
+      transform: translate(-50%, -55%) scale(calc(1 + var(--progress, 0) * .12));
+    }
+    .portal-title .word { transition: color .25s ease; }
+    .portal-meta {
+      position: absolute;
+      z-index: 4;
+      left: var(--gutter);
+      right: var(--gutter);
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+    .portal-meta--top { top: 83px; }
+    .portal-meta--bottom { bottom: 34px; align-items: end; }
+    .portal-meta p { margin: 0; }
+    .portal-location { text-align: right; }
+    .portal-kicker { margin-top: 7px !important; color: var(--ink); font-size: 12px; letter-spacing: .02em; text-transform: none; }
+    .portal-scroll {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      pointer-events: auto;
+    }
+    .scroll-line { display: block; width: 34px; height: 1px; background: var(--red); }
+    .portal-dot {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      margin: -3.5px 0 0 -3.5px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 16px rgba(224, 82, 82, .48);
+      pointer-events: none;
+    }
+    .portal-dot--red { transform: translate3d(-42vw, -31vh, 0); }
+    .portal-dot--teal { background: var(--teal); box-shadow: 0 0 16px rgba(82, 119, 122, .45); }
+    .portal-dot--teal { transform: translate3d(42vw, 31vh, 0); }
+    .motion-ok .portal-dot--red { transform: translate3d(calc(var(--progress, 0) * -42vw), calc(var(--progress, 0) * -31vh), 0); }
+    .motion-ok .portal-dot--teal { transform: translate3d(calc(var(--progress, 0) * 42vw), calc(var(--progress, 0) * 31vh), 0); }
+
+    .section { position: relative; padding: clamp(96px, 13vw, 190px) var(--gutter); }
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: clamp(48px, 7vw, 94px);
+    }
+    .section-no { color: var(--muted); font-size: 10px; letter-spacing: .14em; }
+    .about {
+      display: flex;
+      min-height: 100svh;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .about .section-head { margin-bottom: clamp(38px, 6vw, 76px); }
+    .about-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 1020px;
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(32px, 5.4vw, 78px);
+      font-weight: 600;
+      letter-spacing: -.055em;
+      line-height: 1.13;
+    }
+    .about-copy .warm { color: var(--red); }
+    .about-portrait {
+      position: absolute;
+      top: 17%;
+      right: clamp(-135px, -6vw, -50px);
+      width: clamp(250px, 34vw, 510px);
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 1px solid rgba(237, 231, 220, .2);
+      border-radius: 50%;
+      opacity: .4;
+      pointer-events: none;
+    }
+    .about-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; filter: grayscale(1) contrast(1.1); }
+    .about-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: clamp(48px, 8vw, 104px);
+      padding-top: 17px;
+      border-top: 1px solid var(--hairline);
+    }
+    .fact-label { display: block; margin-bottom: 11px; color: var(--muted); }
+    .fact-value { color: var(--ink); font-size: clamp(13px, 1.25vw, 16px); }
+
+    .courses { background: var(--surface); }
+    .section-title {
+      max-width: 690px;
+      margin: 14px 0 0;
+      font-size: clamp(42px, 7.4vw, 100px);
+      font-weight: 700;
+      line-height: .98;
+    }
+    .course-intro {
+      max-width: 240px;
+      margin: 6px 0 0;
+      color: var(--secondary);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+    .course-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--hairline); }
+    .course-row {
+      display: grid;
+      grid-template-columns: 74px 1fr 60px;
+      align-items: center;
+      min-height: clamp(76px, 9vw, 118px);
+      border-bottom: 1px solid var(--hairline);
+      transition: padding .25s ease;
+    }
+    .course-row:hover { padding-inline: 12px; }
+    .course-index { color: var(--red); font-size: 10px; letter-spacing: .11em; }
+    .course-name { font-family: var(--display); font-size: clamp(20px, 3vw, 35px); font-weight: 600; letter-spacing: -.035em; }
+    .course-count { color: var(--muted); font-size: 10px; text-align: right; }
+
+    .projects { background: var(--surface); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 1px solid var(--hairline);
+    }
+    .project-card {
+      display: grid;
+      grid-template-columns: 50px minmax(0, 1fr);
+      gap: 18px;
+      min-height: 178px;
+      padding: 26px 28px 25px 0;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .project-card:nth-child(odd) { border-right: 1px solid var(--hairline); }
+    .project-card:nth-child(even) { padding-left: 28px; }
+    .project-index { padding-top: 4px; color: var(--red); font-size: 10px; letter-spacing: .12em; }
+    .project-type { margin: 0 0 12px; color: var(--muted); }
+    .project-card h3 { margin: 0; font-family: var(--display); font-size: clamp(23px, 3vw, 38px); font-weight: 600; letter-spacing: -.04em; line-height: 1.08; }
+    .project-note { margin: 12px 0 0; color: var(--secondary); font-size: 11px; line-height: 1.65; }
+
+    .interests { overflow: hidden; }
+    .interests-layout {
+      display: grid;
+      grid-template-columns: minmax(240px, .83fr) minmax(360px, 1fr);
+      align-items: center;
+      gap: clamp(50px, 9vw, 145px);
+    }
+    .interest-copy h2 { max-width: 490px; margin: 16px 0 24px; font-size: clamp(44px, 6.4vw, 82px); line-height: .98; }
+    .interest-copy p:not(.eyebrow) { max-width: 350px; color: var(--secondary); font-size: 13px; line-height: 1.9; }
+    .deck-column { min-width: 0; }
+    .interest-deck {
+      display: grid;
+      gap: 14px;
+      margin: 0 auto;
+      max-width: 470px;
+    }
+    .interest-card {
+      position: relative;
+      min-height: 350px;
+      padding: 28px;
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+      background: #111518;
+      touch-action: pan-y;
+    }
+    .interest-card:nth-child(2) { background: #121619; }
+    .interest-card:nth-child(3) { background: #0e1215; }
+    .card-top { display: flex; justify-content: space-between; align-items: center; }
+    .card-serial { color: var(--muted); font-size: 10px; letter-spacing: .13em; }
+    .card-rule { width: 28px; height: 1px; background: var(--red); }
+    .card-art {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: grid;
+      width: 182px;
+      height: 182px;
+      place-items: center;
+      border: 1px solid rgba(237, 231, 220, .17);
+      border-radius: 50%;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 70px;
+      font-weight: 600;
+      letter-spacing: -.08em;
+      transform: translate(-50%, -54%);
+    }
+    .card-art svg { width: 96px; height: 96px; fill: none; stroke: currentColor; stroke-width: 1.25; }
+    .card-art--chess { color: var(--red); }
+    .card-art--football { color: var(--secondary); }
+    .card-art--tech { color: var(--teal); font-size: 50px; }
+    .card-content { position: absolute; right: 28px; bottom: 28px; left: 28px; }
+    .card-content h3 { margin: 8px 0 7px; font-family: var(--display); font-size: 35px; letter-spacing: -.04em; }
+    .card-content p { max-width: 300px; margin: 0; color: var(--secondary); font-size: 11px; line-height: 1.7; }
+    .deck-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 470px; margin: 23px auto 0; }
+    .deck-hint { margin: 0; color: var(--muted); font-size: 9px; letter-spacing: .08em; }
+    .deck-actions { display: flex; gap: 8px; }
+    .deck-button {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 1px solid var(--hairline);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      transition: color .2s ease, border-color .2s ease;
+    }
+    .deck-button:hover, .deck-button:focus-visible { border-color: var(--red); color: var(--red); }
+    .deck-dots { display: flex; justify-content: center; gap: 8px; margin-top: 17px; }
+    .deck-dot {
+      width: 5px;
+      height: 5px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: var(--muted);
+      cursor: pointer;
+    }
+    .deck-dot[aria-current="true"] { background: var(--red); }
+    .is-enhanced .interest-deck { position: relative; display: block; height: 380px; outline: none; }
+    .is-enhanced .interest-card {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      user-select: none;
+      cursor: grab;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, .28);
+      transition: transform .34s cubic-bezier(.2, .75, .25, 1), opacity .34s ease;
+      transform: translate3d(calc(var(--slot, 0) * 7px), calc(var(--slot, 0) * -7px), 0) scale(calc(1 - var(--slot, 0) * .025)) rotate(calc(var(--slot, 0) * 1.5deg));
+    }
+    .is-enhanced .interest-card[data-slot="0"] { z-index: 3; }
+    .is-enhanced .interest-card[data-slot="1"] { z-index: 2; }
+    .is-enhanced .interest-card[data-slot="2"] { z-index: 1; }
+    .is-enhanced .interest-card.is-dragging { cursor: grabbing; transition: none; z-index: 4; }
+    .is-enhanced .interest-card.is-throwing { z-index: 4; opacity: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    .contact {
+      min-height: 84svh;
+      padding-bottom: 0;
+      overflow: hidden;
+    }
+    .contact-content { display: flex; align-items: end; justify-content: space-between; gap: 40px; padding-bottom: clamp(72px, 10vw, 132px); }
+    .contact h2 { max-width: 760px; margin: 16px 0 18px; font-size: clamp(46px, 8vw, 112px); line-height: .94; }
+    .contact-lede { margin: 0; color: var(--secondary); font-size: 12px; }
+    .contact-links { display: flex; flex-direction: column; min-width: 205px; }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--hairline);
+      color: var(--secondary);
+      font-size: 11px;
+      transition: color .2s ease;
+    }
+    .contact-link:first-child { border-top: 1px solid var(--hairline); }
+    .contact-link:hover, .contact-link:focus-visible { color: var(--red); }
+    .contact-link span:last-child { color: var(--muted); }
+    .footer-line { display: flex; justify-content: space-between; gap: 24px; padding: 16px 0 14px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+    .closing-mark {
+      width: max-content;
+      margin: 1.8vw 0 -0.26em;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 19.5vw;
+      font-weight: 800;
+      letter-spacing: -.09em;
+      line-height: .75;
+      opacity: .93;
+      transform: translateX(-.045em);
+      white-space: nowrap;
+    }
+    .closing-mark span { color: var(--red); }
+
+    @media (max-width: 760px) {
+      .nav-tools { gap: 12px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 8px; }
+      .theme-toggle { min-height: 32px; padding-inline: 9px; }
+      .portal { min-height: 1400px; }
+      .portal-stage { min-height: 540px; }
+      .portal-title { font-size: clamp(50px, 11.5vw, 88px); }
+      .portal-meta--top { top: 76px; }
+      .portal-meta--bottom { bottom: 24px; }
+      .portal-location { max-width: 120px; }
+      .section-head { margin-bottom: 52px; }
+      .about { min-height: 94svh; }
+      .about-portrait { top: 13%; right: -130px; opacity: .3; }
+      .about-copy { max-width: 640px; font-size: clamp(34px, 7vw, 56px); }
+      .about-facts { gap: 14px; }
+      .fact-label { font-size: 8px; }
+      .fact-value { font-size: 12px; }
+      .course-row { grid-template-columns: 48px 1fr 42px; }
+      .project-card { grid-template-columns: 38px minmax(0, 1fr); padding-right: 18px; }
+      .project-card:nth-child(even) { padding-left: 18px; }
+      .interests-layout { grid-template-columns: 1fr; gap: 42px; }
+      .interest-copy h2 { max-width: 500px; }
+      .interest-copy p:not(.eyebrow) { max-width: 440px; }
+      .interest-deck { max-width: 520px; }
+      .contact { min-height: auto; }
+      .contact-content { align-items: flex-start; flex-direction: column; }
+      .contact-links { width: min(100%, 420px); }
+      .closing-mark { font-size: 19vw; }
+    }
+    @media (max-width: 480px) {
+      :root { --gutter: 21px; }
+      .site-nav { height: 54px; }
+      .nav-tools { gap: 8px; }
+      .nav-links { gap: 9px; }
+      .nav-links a[href="#about"], .nav-links a[href="#interests"] { display: none; }
+      .theme-toggle { min-height: 30px; gap: 5px; padding-inline: 8px; font-size: 8px; }
+      .theme-toggle-icon { font-size: 12px; }
+      .nav-links .nav-contact { padding: 8px 11px; }
+      .portal { height: 210svh; min-height: 1190px; }
+      .portal-stage { height: 100svh; min-height: 500px; }
+      .portal-photo { object-position: 51% 36%; }
+      .portal-title { font-size: 12vw; gap: .08em; }
+      .portal-meta--top { top: 72px; }
+      .portal-meta--bottom { bottom: 21px; }
+      .portal-kicker { max-width: 165px; font-size: 10px; }
+      .portal-meta--bottom .eyebrow { font-size: 8px; }
+      .portal-scroll { gap: 8px; }
+      .scroll-line { width: 22px; }
+      .section { padding-top: 92px; padding-bottom: 92px; }
+      .about { min-height: 89svh; }
+      .about .section-head { margin-bottom: 38px; }
+      .about-copy { font-size: clamp(34px, 9vw, 46px); }
+      .about-portrait { top: 20%; right: -150px; width: 280px; opacity: .28; }
+      .about-facts { grid-template-columns: 1fr 1fr; row-gap: 22px; margin-top: 48px; }
+      .fact:last-child { grid-column: 1 / -1; }
+      .section-title { font-size: 50px; }
+      .course-intro { max-width: 160px; font-size: 10px; }
+      .course-row { min-height: 76px; grid-template-columns: 36px 1fr 32px; }
+      .course-name { font-size: 19px; }
+      .course-index, .course-count { font-size: 8px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card, .project-card:nth-child(even) { min-height: 145px; padding: 22px 0; border-right: 0; }
+      .project-card h3 { font-size: 28px; }
+      .interest-copy h2 { font-size: 52px; }
+      .is-enhanced .interest-deck { height: 350px; }
+      .interest-card { min-height: 310px; padding: 22px; }
+      .card-content { right: 22px; bottom: 22px; left: 22px; }
+      .card-art { width: 155px; height: 155px; }
+      .deck-hint { max-width: 145px; line-height: 1.6; }
+      .contact h2 { font-size: 53px; }
+      .footer-line { font-size: 7px; }
+      .closing-mark { font-size: 18.4vw; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <a class="nav-brand" href="#home" aria-label="Muhammad Amir, home">MA<span>.</span></a>
+    <div class="nav-tools">
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#courses">Courses</a>
+        <a href="#projects">Projects</a>
+        <a href="#interests">Interests</a>
+        <a class="nav-contact" href="#contact">Say hello <span aria-hidden="true">↗</span></a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false"><span class="theme-toggle-icon" aria-hidden="true">◐</span><span id="theme-toggle-label">Light</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="portal" id="home" aria-label="Muhammad Amir introduction">
+      <div class="portal-stage" id="portal-stage">
+        <img class="portal-photo" src="images/muhammad-portrait.jpg" alt="Muhammad Amir in a dark suit">
+        <div class="portal-shade" aria-hidden="true"></div>
+        <div class="portal-duotone" aria-hidden="true"></div>
+        <div class="portal-panel portal-panel--left" aria-hidden="true"></div>
+        <div class="portal-panel portal-panel--right" aria-hidden="true"></div>
+        <span class="portal-dot portal-dot--red" aria-hidden="true"></span>
+        <span class="portal-dot portal-dot--teal" aria-hidden="true"></span>
+        <h1 class="portal-title" aria-label="Amir"><span class="word surname" aria-hidden="true">AMIR<span class="accent">.</span></span></h1>
+        <div class="portal-meta portal-meta--top">
+          <div><p class="eyebrow">A little introduction</p><p class="portal-kicker">Curious mind, always learning.</p></div>
+          <p class="eyebrow portal-location">Inha University<br>First-year student</p>
+        </div>
+        <div class="portal-meta portal-meta--bottom">
+          <a class="portal-scroll eyebrow" href="#about"><span class="scroll-line" aria-hidden="true"></span>Scroll to meet me</a>
+          <p class="eyebrow">05 &nbsp; sections ahead</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="section-head">
+        <p class="eyebrow"><span class="accent">01</span> &nbsp; About me</p>
+        <span class="section-no">A work in progress</span>
+      </div>
+      <div class="about-portrait" aria-hidden="true"><img src="images/muhammad-circle.jpg" alt=""></div>
+      <p class="about-copy">Hi, I’m Muhammad Amir — a first-year student at Inha University, interested in <span class="warm">technology, programming,</span> and the ideas behind Computer Science.</p>
+      <div class="about-facts" aria-label="About Muhammad">
+        <div class="fact"><span class="eyebrow fact-label">Studying at</span><span class="fact-value">Inha University</span></div>
+        <div class="fact"><span class="eyebrow fact-label">Current chapter</span><span class="fact-value">First year</span></div>
+        <div class="fact"><span class="eyebrow fact-label">Birthday</span><span class="fact-value">December 31</span></div>
+      </div>
+    </section>
+
+    <section class="section courses" id="courses">
+      <div class="section-head">
+        <div><p class="eyebrow"><span class="accent">02</span> &nbsp; My courses</p><h2 class="section-title display">Learning<br>in progress.</h2></div>
+        <p class="course-intro">Seven courses I’m currently studying at Inha University.</p>
+      </div>
+      <ol class="course-list">
+        <li class="course-row"><span class="course-index">01</span><span class="course-name">Introduction to IT</span><span class="course-count">01 / 07</span></li>
+        <li class="course-row"><span class="course-index">02</span><span class="course-name">Object-Oriented Programming</span><span class="course-count">02 / 07</span></li>
+        <li class="course-row"><span class="course-index">03</span><span class="course-name">Academic English</span><span class="course-count">03 / 07</span></li>
+        <li class="course-row"><span class="course-index">04</span><span class="course-name">Academic English Reading</span><span class="course-count">04 / 07</span></li>
+        <li class="course-row"><span class="course-index">05</span><span class="course-name">Physics</span><span class="course-count">05 / 07</span></li>
+        <li class="course-row"><span class="course-index">06</span><span class="course-name">Physics Experiment</span><span class="course-count">06 / 07</span></li>
+        <li class="course-row"><span class="course-index">07</span><span class="course-name">Calculus</span><span class="course-count">07 / 07</span></li>
+      </ol>
+    </section>
+
+    <section class="section projects" id="projects">
+      <div class="section-head">
+        <div><p class="eyebrow"><span class="accent">03</span> &nbsp; Projects</p><h2 class="section-title display">Things I’ve<br>built.</h2></div>
+        <p class="course-intro">A mix of coding, computer architecture, and digital logic projects.</p>
+      </div>
+      <div class="projects-grid">
+        <article class="project-card">
+          <span class="project-index">01</span>
+          <div><p class="eyebrow project-type">Computer architecture</p><h3>Brookshear’s Machine</h3></div>
+        </article>
+        <article class="project-card">
+          <span class="project-index">02</span>
+          <div><p class="eyebrow project-type">Messaging projects</p><h3>Telegram Bots</h3></div>
+        </article>
+        <article class="project-card">
+          <span class="project-index">03</span>
+          <div><p class="eyebrow project-type">Web development</p><h3>HTML Website</h3><p class="project-note">A website created with HTML.</p></div>
+        </article>
+        <article class="project-card">
+          <span class="project-index">04</span>
+          <div><p class="eyebrow project-type">Logisim Evolution</p><h3>RAMs</h3><p class="project-note">RAM circuits using Logisim Evolution.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section interests" id="interests">
+      <div class="section-head">
+        <p class="eyebrow"><span class="accent">04</span> &nbsp; Off the page</p>
+        <span class="section-no">A few favorite things</span>
+      </div>
+      <div class="interests-layout">
+        <div class="interest-copy">
+          <p class="eyebrow">My interests</p>
+          <h2 class="display">Curiosity has many moves.</h2>
+          <p>From a chessboard to the football pitch to a new line of code, I like finding something new to learn in the things I enjoy.</p>
+        </div>
+        <div class="deck-column">
+          <div class="interest-deck" id="interest-deck" tabindex="0" role="group" aria-label="Interests. Use left and right arrow keys to browse.">
+            <article class="interest-card" data-interest="chess" aria-label="Chess">
+              <div class="card-top"><span class="eyebrow">01 &nbsp; / &nbsp; STRATEGY</span><span class="card-rule" aria-hidden="true"></span></div>
+              <div class="card-art card-art--chess" aria-hidden="true">♞</div>
+              <div class="card-content"><p class="eyebrow">Patience &amp; planning</p><h3>Chess</h3><p>I enjoy playing chess for the logic, patience, and strategy in every game.</p></div>
+            </article>
+            <article class="interest-card" data-interest="football" aria-label="Football">
+              <div class="card-top"><span class="eyebrow">02 &nbsp; / &nbsp; THE GAME</span><span class="card-rule" aria-hidden="true"></span></div>
+              <div class="card-art card-art--football" aria-hidden="true">
+                <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="36"></circle><path d="m50 31 12 9-5 15H43l-5-15 12-9Zm0 0V14m12 26 16-6M57 55l10 15M43 55 33 70m-5-29-14-7m24-1-8-16m28 16 8-16M33 70l-8 13m42-13 8 13m-61-42-5 23m72-23 5 23"></path></svg>
+              </div>
+              <div class="card-content"><p class="eyebrow">Following the sport</p><h3>Football</h3><p>I enjoy watching football and keeping up with the sport.</p></div>
+            </article>
+            <article class="interest-card" data-interest="technology" aria-label="Technology">
+              <div class="card-top"><span class="eyebrow">03 &nbsp; / &nbsp; WHAT’S NEXT</span><span class="card-rule" aria-hidden="true"></span></div>
+              <div class="card-art card-art--tech" aria-hidden="true">&lt;/&gt;</div>
+              <div class="card-content"><p class="eyebrow">Ideas into practice</p><h3>Technology</h3><p>Programming, computers, and modern technologies always give me something new to explore.</p></div>
+            </article>
+          </div>
+          <div class="deck-controls">
+            <p class="deck-hint">Drag a card or use your arrow keys</p>
+            <div class="deck-actions">
+              <button class="deck-button" type="button" data-deck-prev aria-label="Previous interest">←</button>
+              <button class="deck-button" type="button" data-deck-next aria-label="Next interest">→</button>
+            </div>
+          </div>
+          <div class="deck-dots" aria-label="Choose an interest">
+            <button class="deck-dot" type="button" data-deck-dot="0" aria-label="Show chess" aria-current="true"></button>
+            <button class="deck-dot" type="button" data-deck-dot="1" aria-label="Show football" aria-current="false"></button>
+            <button class="deck-dot" type="button" data-deck-dot="2" aria-label="Show technology" aria-current="false"></button>
+          </div>
+          <p class="sr-only" id="deck-live" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="contact-content">
+        <div>
+          <p class="eyebrow"><span class="accent">05</span> &nbsp; Contact</p>
+          <h2 class="display">Let’s connect<span class="accent">.</span></h2>
+          <p class="contact-lede">Feel free to say hello or follow what I’m learning.</p>
+        </div>
+        <div class="contact-links">
+          <a class="contact-link" href="https://t.me/Amir_2008" target="_blank" rel="noreferrer"><span>Telegram</span><span>@Amir_2008 ↗</span></a>
+          <a class="contact-link" href="https://github.com/tojiddinovm" target="_blank" rel="noreferrer"><span>GitHub</span><span>tojiddinovm ↗</span></a>
+        </div>
+      </div>
+      <footer>
+        <div class="footer-line"><span>Muhammad Amir</span><span>Learning something new, every day.</span><a href="#home">Back to top ↑</a></div>
+        <p class="closing-mark" aria-hidden="true">AMIR<span>.</span></p>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const portal = document.querySelector('.portal');
+      const themeButton = document.getElementById('theme-toggle');
+      const themeLabel = document.getElementById('theme-toggle-label');
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+
+      function setTheme(theme, save = true) {
+        const selectedTheme = theme === 'light' ? 'light' : 'dark';
+        root.dataset.theme = selectedTheme;
+        const isLight = selectedTheme === 'light';
+        themeButton.setAttribute('aria-pressed', String(isLight));
+        themeButton.setAttribute('aria-label', `Switch to ${isLight ? 'dark' : 'light'} mode`);
+        themeLabel.textContent = isLight ? 'Dark' : 'Light';
+        themeColor?.setAttribute('content', isLight ? '#f3f0e8' : '#0a0c0e');
+        if (save) {
+          try { localStorage.setItem('muhammad-amir-theme', selectedTheme); } catch (_) {}
+        }
+      }
+      setTheme(root.dataset.theme || 'dark', false);
+      themeButton.addEventListener('click', () => setTheme(root.dataset.theme === 'light' ? 'dark' : 'light'));
+
+      function updatePortal() {
+        if (!root.classList.contains('motion-ok')) return;
+        const rect = portal.getBoundingClientRect();
+        const range = Math.max(1, portal.offsetHeight - window.innerHeight);
+        const progress = Math.min(1, Math.max(0, -rect.top / range));
+        portal.style.setProperty('--progress', progress.toFixed(4));
+      }
+      let ticking = false;
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(() => { updatePortal(); ticking = false; });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', updatePortal);
+      reducedMotion.addEventListener?.('change', (event) => {
+        root.classList.toggle('motion-ok', !event.matches);
+        updatePortal();
+      });
+      updatePortal();
+
+      const deck = document.getElementById('interest-deck');
+      const live = document.getElementById('deck-live');
+      const dots = [...document.querySelectorAll('[data-deck-dot]')];
+      let cards = [...deck.querySelectorAll('.interest-card')];
+      let pointerStart = null;
+      root.classList.add('is-enhanced');
+
+      function syncDeck(announce = false) {
+        cards.forEach((card, index) => {
+          card.dataset.slot = String(index);
+          card.setAttribute('aria-hidden', index === 0 ? 'false' : 'true');
+        });
+        const activeIndex = ['chess', 'football', 'technology'].indexOf(cards[0].dataset.interest);
+        dots.forEach((dot, index) => dot.setAttribute('aria-current', String(index === activeIndex)));
+        if (announce && live) live.textContent = `${cards[0].getAttribute('aria-label')} selected`;
+      }
+      function next() {
+        const card = cards.shift();
+        cards.push(card);
+        deck.append(card);
+        syncDeck(true);
+      }
+      function previous() {
+        const card = cards.pop();
+        cards.unshift(card);
+        deck.prepend(card);
+        syncDeck(true);
+      }
+      function show(index) {
+        while (['chess', 'football', 'technology'].indexOf(cards[0].dataset.interest) !== index) next();
+      }
+      document.querySelector('[data-deck-next]').addEventListener('click', next);
+      document.querySelector('[data-deck-prev]').addEventListener('click', previous);
+      dots.forEach((dot) => dot.addEventListener('click', () => show(Number(dot.dataset.deckDot))));
+      deck.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight') { event.preventDefault(); next(); }
+        if (event.key === 'ArrowLeft') { event.preventDefault(); previous(); }
+      });
+      deck.addEventListener('pointerdown', (event) => {
+        if (event.button !== 0 || event.target.closest('button')) return;
+        const card = cards[0];
+        pointerStart = { x: event.clientX, y: event.clientY, card };
+        card.classList.add('is-dragging');
+        deck.setPointerCapture(event.pointerId);
+      });
+      deck.addEventListener('pointermove', (event) => {
+        if (!pointerStart) return;
+        const dx = event.clientX - pointerStart.x;
+        const dy = event.clientY - pointerStart.y;
+        pointerStart.card.style.transform = `translate3d(${dx}px, ${dy}px, 0) rotate(${dx * .035}deg) scale(1.015)`;
+      });
+      function releasePointer(event) {
+        if (!pointerStart) return;
+        const { x, card } = pointerStart;
+        const dx = event.clientX - x;
+        card.classList.remove('is-dragging');
+        pointerStart = null;
+        if (Math.abs(dx) > deck.getBoundingClientRect().width * .1) {
+          const direction = dx > 0 ? 1 : -1;
+          card.classList.add('is-throwing');
+          card.style.setProperty('--throw-x', `${direction * deck.getBoundingClientRect().width * 1.25}px`);
+          card.style.setProperty('--throw-angle', `${direction * 17}deg`);
+          card.style.transform = `translate3d(${direction * deck.getBoundingClientRect().width * 1.25}px, -36px, 0) rotate(${direction * 17}deg) scale(.94)`;
+          window.setTimeout(() => {
+            card.classList.remove('is-throwing');
+            card.style.removeProperty('transform');
+            card.style.removeProperty('--throw-x');
+            card.style.removeProperty('--throw-angle');
+            if (direction < 0) next(); else previous();
+          }, 360);
+        } else {
+          card.style.removeProperty('transform');
+        }
+      }
+      deck.addEventListener('pointerup', releasePointer);
+      deck.addEventListener('pointercancel', (event) => {
+        if (pointerStart) {
+          pointerStart.card.classList.remove('is-dragging');
+          pointerStart.card.style.removeProperty('transform');
+          pointerStart = null;
+        }
+      });
+      syncDeck();
+    })();
+  </script>
+</body>
+</html>
